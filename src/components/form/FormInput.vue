@@ -10,7 +10,7 @@ export default {
     },
     id: {
       type: String,
-      default: 'input'
+      default: ''
     },
     type: {
       type: String,

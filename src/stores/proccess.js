@@ -2,22 +2,25 @@ import { defineStore } from 'pinia'
 
 export const usePurchasingStore = defineStore('purchasing', {
   state: () => ({
-    id: '',
     phone_number: '',
     address: '',
     delivery: false,
     dropshipper_name: '',
     dropshipper_phone_number: '',
     email: '',
-    items_cost: 0,
+    items_cost: 700000,
     dropshipper_fee: 0,
-    order_id: ''
+    order_id: '',
+    shipment_estimated_time: '2 days',
+    shipment_name: 'JNE',
+    shipment_type: 'jne',
+    shipment_cost: 9000,
+    payment_type: 'wallet'
   }),
 
   getters: {
     getPurchasingData() {
       return {
-        id: this.id,
         phone_number: this.phone_number,
         address: this.address,
         delivery: this.delivery,
@@ -27,7 +30,12 @@ export const usePurchasingStore = defineStore('purchasing', {
         items_cost: this.items_cost,
         dropshipper_fee: this.dropshipper_fee,
         total_cost: this.items_cost + this.dropshipper_fee,
-        order_id: this.order_id
+        order_id: this.order_id,
+        shipment_type: this.shipment_type,
+        shipment_estimated_time: this.shipment_estimated_time,
+        shipment_name: this.shipment_name,
+        shipment_cost: this.shipment_cost,
+        payment_type: this.payment_type
       }
     },
     isDelivery() {
@@ -40,16 +48,28 @@ export const usePurchasingStore = defineStore('purchasing', {
       this.id = newData.id
       this.phone_number = newData.phone_number || this.phone_number
       this.address = newData.address || this.address
-      this.delivery = newData.delivery || this.delivery
       this.dropshipper_name = newData.dropshipper_name || this.dropshipper_name
       this.dropshipper_phone_number =
         newData.dropshipper_phone_number || this.dropshipper_phone_number
-      this.email = newData.email
+      this.email = newData.email || this.email
       this.items_cost = newData.items_cost || this.items_cost
-      this.dropshipper_fee = newData.dropshipper_fee
     },
     updateDeliveryStatus(status) {
       this.delivery = status
+    },
+    updateDropshipperFee(fee) {
+      this.dropshipper_fee = fee
+    },
+    updateShipmentType(type) {
+      this.shipment_type = type
+    },
+    updateShipment(data) {
+      this.shipment_cost = data.shipment_cost
+      this.shipment_estimated_time = data.shipment_estimated_time
+      this.shipment_name = data.shipment_name
+    },
+    updatePayment(type) {
+      this.payment_type = type
     }
   }
 })

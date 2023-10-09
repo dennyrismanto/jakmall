@@ -12,23 +12,15 @@ export default {
       router.push('/delivery')
     }
     return {
-      onClickDelivery
+      onClickDelivery,
+      router
     }
   }
 }
 </script>
 
 <template>
-  <!-- <header> -->
-  <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-
-  <!-- <div class="wrapper"> -->
-  <!-- <HelloWorld msg="You did it!" /> -->
-
   <div class="nav">
-    <!-- <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink> -->
-    <!--buatkan div circle bertulisan 1, 2 dan 3-->
     <div class="circle">
       <div>
         <div class="circle1">
@@ -38,14 +30,26 @@ export default {
         <span class="material-icons"> chevron_right </span>
       </div>
       <div>
-        <div class="circle2">
+        <div
+          class="circle2"
+          :class="{
+            active:
+              router.currentRoute.value.name === 'payment' ||
+              router.currentRoute.value.name === 'finish'
+          }"
+        >
           <p>2</p>
         </div>
         <p>Payment</p>
         <span class="material-icons"> chevron_right </span>
       </div>
       <div>
-        <div class="circle3">
+        <div
+          class="circle3"
+          :class="{
+            active: router.currentRoute.value.name === 'finish'
+          }"
+        >
           <p>3</p>
         </div>
         <p>Finish</p>
@@ -128,6 +132,9 @@ export default {
   background-color: white;
   z-index: -2;
 }
+.active {
+  background-color: #ff8a00;
+}
 
 @media screen and (max-width: 768px) {
   .circle {
@@ -177,16 +184,5 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  /* .container-box {
-    width: 100%;
-    height: 100%;
-    align-items: center;
-  }
-  .container-box div {
-    width: 90%;
-    height: 100%;
-    background-color: white;
-    z-index: -2;
-  } */
 }
 </style>

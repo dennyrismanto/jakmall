@@ -63,10 +63,24 @@ export default {
         emit('update:modelValue', input.value)
       }
     })
+    const randomString = (length) => {
+      let result = ''
+      const characters = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ'
+      const charactersLength = characters.length
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
+      }
+      return result
+    }
     const save = () => {
-      //set data di session storage menggunakan pinia
+      console.log(data.value)
       purchasing.updatePurchasingData(data.value)
-      router.push('/payment')
+      if (router.currentRoute.value.path === '/delivery') {
+        router.push('/payment')
+      } else if (router.currentRoute.value.path === '/payment') {
+        input.value.id = randomString(5)
+        router.push('/finish')
+      }
     }
     return {
       input,
@@ -75,7 +89,8 @@ export default {
       delivery,
       purchasing,
       save,
-      data
+      data,
+      randomString
     }
   }
 }

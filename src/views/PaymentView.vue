@@ -1,19 +1,19 @@
 <script>
-import { ref, onMounted, onBeforeMount, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import DeliveryDetail from '../components/DeliveryDetail.vue'
-import SummaryForm from '../components/SummaryForm.vue'
+import { ref, computed, onMounted, onBeforeMount } from 'vue'
 import { usePurchasingStore } from '../stores/proccess.js'
+import { useRouter } from 'vue-router'
+import ShipmentAndPaymentForm from '../components/ShipmentAndPaymentForm.vue'
+import SummaryForm from '../components/SummaryForm.vue'
 
 export default {
-  name: 'DeliveryView',
+  name: 'PaymentView',
   components: {
-    DeliveryDetail,
-    SummaryForm
+    SummaryForm,
+    ShipmentAndPaymentForm
   },
   setup() {
     const router = useRouter()
-
+    const purchasing = usePurchasingStore()
     const input = ref({
       order_id: '',
       phone_number: '',
@@ -22,13 +22,17 @@ export default {
       dropshipper_name: '',
       dropshipper_phone_number: '',
       email: '',
-      items_cost: 700000,
-      dropshipper_fee: 0
+      items_cost: 0,
+      dropshipper_fee: 0,
+      shipment_name: '',
+      shipment_estimated_time: '',
+      shipment_type: '',
+      shipment_cost: 0,
+      payment_type: ''
     })
-
     const inputNew = computed({
       get() {
-        return input.value
+        return purchasing.getPurchasingData
       },
       set(val) {
         input.value.email = val.email
@@ -39,6 +43,11 @@ export default {
         input.value.dropshipper_phone_number = val.dropshipper_phone_number
         input.value.items_cost = val.items_cost
         input.value.dropshipper_fee = val.dropshipper_fee
+        input.value.shipment_name = val.shipment_name
+        input.value.shipment_estimated_time = val.shipment_estimated_time
+        input.value.shipment_type = val.shipment_type
+        input.value.shipment_cost = val.shipment_cost
+        input.value.payment_type = val.payment_type
       }
     })
 
@@ -50,10 +59,7 @@ export default {
     })
 
     onBeforeMount(() => {
-      if (router.currentRoute.value.path === '/delivery') {
-        const purchasing = usePurchasingStore()
-        purchasing.updatePurchasingData(input.value)
-      }
+      purchasing.updatePurchasingData(input.value)
     })
     return {
       input,
@@ -65,10 +71,19 @@ export default {
 <template>
   <div class="view-container">
     <div class="view-content-left">
-      <DeliveryDetail v-model="inputNew" />
+      <ShipmentAndPaymentForm v-model="inputNew" />
     </div>
     <div class="view-content-right">
       <SummaryForm v-model="inputNew" />
     </div>
   </div>
 </template>
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

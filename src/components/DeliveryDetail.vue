@@ -57,21 +57,14 @@ export default {
     })
     const delivery = computed({
       get() {
-        //get dari local storage isDelivery
         return purchasing.delivery
       },
       set(val) {
-        //set ke local storage isDelivery
         purchasing.updateDeliveryStatus(val)
         if (val === true) {
-          purchasing.updatePurchasingData({
-            dropshipper_fee: 5900
-          })
-          emit('update:modelValue', input.value)
+          purchasing.updateDropshipperFee(5900)
         } else {
-          purchasing.updatePurchasingData({
-            dropshipper_fee: 0
-          })
+          purchasing.updateDropshipperFee(0)
         }
       }
     })
