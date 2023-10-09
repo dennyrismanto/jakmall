@@ -30,6 +30,7 @@ export const usePurchasingStore = defineStore('purchasing', {
         items_cost: this.items_cost,
         dropshipper_fee: this.dropshipper_fee,
         total_cost: this.items_cost + this.dropshipper_fee,
+        total_cost_with_shipment: this.items_cost + this.dropshipper_fee + this.shipment_cost,
         order_id: this.order_id,
         shipment_type: this.shipment_type,
         shipment_estimated_time: this.shipment_estimated_time,

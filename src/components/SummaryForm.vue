@@ -54,6 +54,11 @@ export default {
         emit('update:modelValue', input.value)
       }
     })
+    const shipment_cost = computed({
+      get() {
+        return purchasing.shipment_cost
+      }
+    })
     const delivery = computed({
       get() {
         return purchasing.delivery
@@ -86,11 +91,13 @@ export default {
       input,
       items_cost,
       dropshipper_fee,
+      shipment_cost,
       delivery,
       purchasing,
       save,
       data,
-      randomString
+      randomString,
+      router
     }
   }
 }
@@ -101,6 +108,21 @@ export default {
     <div>
       <h1>Summary</h1>
       <p style="font-size: 90%">10 items purchased</p>
+      <div
+        style="display: flex; flex-direction: column"
+        v-if="router.currentRoute.value.path === '/payment'"
+      >
+        <p style="font-weight: bold; font-size: 14px">Delivery estimation</p>
+        <div style="display: flex; flex-direction: row">
+          <p style="color: #078a49b9; font-size: 16px; font-weight: bold; margin-right: 5px">
+            {{ purchasing.getPurchasingData.shipment_estimated_time }}
+          </p>
+          <p style="color: #078a49b9; font-size: 16px; font-weight: bold; margin-right: 5px">by</p>
+          <p style="color: #078a49b9; font-size: 16px; font-weight: bold; margin-right: 5px">
+            {{ purchasing.getPurchasingData.shipment_name }}
+          </p>
+        </div>
+      </div>
     </div>
 
     <div>
@@ -115,10 +137,26 @@ export default {
         <p style="margin-right: 10px">Dropshipper fee</p>
         <p>{{ dropshipper_fee.toLocaleString('id-ID') }}</p>
       </div>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between"
+        v-if="router.currentRoute.value.path === '/payment'"
+      >
+        <p style="margin-right: 10px">{{ purchasing.getPurchasingData.shipment_name }} shipment</p>
+        <p>{{ shipment_cost.toLocaleString('id-ID') }}</p>
+      </div>
       <div style="display: flex; flex-direction: row; justify-content: space-between">
         <p style="margin-right: 10px; color: #ff8a00; font-weight: bold; font-size: 20px">Total</p>
-        <p style="color: #ff8a00; font-weight: bold; font-size: 20px">
+        <p
+          style="color: #ff8a00; font-weight: bold; font-size: 20px"
+          v-if="router.currentRoute.value.path === '/delivery'"
+        >
           {{ purchasing.getPurchasingData.total_cost.toLocaleString('id-ID') }}
+        </p>
+        <p
+          style="color: #ff8a00; font-weight: bold; font-size: 20px"
+          v-if="router.currentRoute.value.path === '/payment'"
+        >
+          {{ purchasing.getPurchasingData.total_cost_with_shipment.toLocaleString('id-ID') }}
         </p>
       </div>
       <div class="btn-primary">
