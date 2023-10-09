@@ -8,11 +8,8 @@ export default {
   },
   setup() {
     const router = useRouter()
-    const onClickDelivery = () => {
-      router.push('/delivery')
-    }
+
     return {
-      onClickDelivery,
       router
     }
   }
@@ -26,7 +23,7 @@ export default {
         <div class="circle1">
           <p>1</p>
         </div>
-        <p @click="onClickDelivery">Delivery</p>
+        <p>Delivery</p>
         <span class="material-icons"> chevron_right </span>
       </div>
       <div>

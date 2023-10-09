@@ -15,7 +15,8 @@ export const usePurchasingStore = defineStore('purchasing', {
     shipment_name: 'JNE',
     shipment_type: 'jne',
     shipment_cost: 9000,
-    payment_type: 'wallet'
+    payment_type: 'wallet',
+    payment_method: 'Wallet'
   }),
 
   getters: {
@@ -36,7 +37,8 @@ export const usePurchasingStore = defineStore('purchasing', {
         shipment_estimated_time: this.shipment_estimated_time,
         shipment_name: this.shipment_name,
         shipment_cost: this.shipment_cost,
-        payment_type: this.payment_type
+        payment_type: this.payment_type,
+        payment_method: this.payment_method
       }
     },
     isDelivery() {
@@ -46,7 +48,6 @@ export const usePurchasingStore = defineStore('purchasing', {
 
   actions: {
     updatePurchasingData(newData) {
-      this.id = newData.id
       this.phone_number = newData.phone_number || this.phone_number
       this.address = newData.address || this.address
       this.dropshipper_name = newData.dropshipper_name || this.dropshipper_name
@@ -71,6 +72,12 @@ export const usePurchasingStore = defineStore('purchasing', {
     },
     updatePayment(type) {
       this.payment_type = type
+    },
+    updatePaymentMethod(method) {
+      this.payment_method = method
+    },
+    updateOrderId(id) {
+      this.order_id = id
     }
   }
 })

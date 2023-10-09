@@ -1,5 +1,5 @@
 <script>
-import { ref, computed, onMounted, onBeforeMount } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { usePurchasingStore } from '../stores/proccess.js'
 import { useRouter } from 'vue-router'
 import ShipmentAndPaymentForm from '../components/ShipmentAndPaymentForm.vue'
@@ -33,21 +33,6 @@ export default {
     const inputNew = computed({
       get() {
         return purchasing.getPurchasingData
-      },
-      set(val) {
-        input.value.email = val.email
-        input.value.phone_number = val.phone_number
-        input.value.address = val.address
-        input.value.delivery = val.delivery
-        input.value.dropshipper_name = val.dropshipper_name
-        input.value.dropshipper_phone_number = val.dropshipper_phone_number
-        input.value.items_cost = val.items_cost
-        input.value.dropshipper_fee = val.dropshipper_fee
-        input.value.shipment_name = val.shipment_name
-        input.value.shipment_estimated_time = val.shipment_estimated_time
-        input.value.shipment_type = val.shipment_type
-        input.value.shipment_cost = val.shipment_cost
-        input.value.payment_type = val.payment_type
       }
     })
 
@@ -58,9 +43,6 @@ export default {
       }
     })
 
-    onBeforeMount(() => {
-      purchasing.updatePurchasingData(input.value)
-    })
     return {
       input,
       inputNew

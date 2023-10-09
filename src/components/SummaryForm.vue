@@ -68,6 +68,7 @@ export default {
         emit('update:modelValue', input.value)
       }
     })
+
     const randomString = (length) => {
       let result = ''
       const characters = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ'
@@ -78,12 +79,12 @@ export default {
       return result
     }
     const save = () => {
-      console.log(data.value)
-      purchasing.updatePurchasingData(data.value)
       if (router.currentRoute.value.path === '/delivery') {
+        purchasing.updatePurchasingData(data.value)
         router.push('/payment')
       } else if (router.currentRoute.value.path === '/payment') {
-        input.value.id = randomString(5)
+        data.value.order_id = randomString(5)
+        purchasing.updatePurchasingData(data.value)
         router.push('/finish')
       }
     }
@@ -139,7 +140,14 @@ export default {
       </div>
       <div
         style="display: flex; flex-direction: row; justify-content: space-between"
-        v-if="router.currentRoute.value.path === '/payment'"
+        v-if="router.currentRoute.value.path === '/payment' && shipment_cost"
+      >
+        <p style="margin-right: 10px">{{ purchasing.getPurchasingData.shipment_name }} shipment</p>
+        <p>{{ shipment_cost.toLocaleString('id-ID') }}</p>
+      </div>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between"
+        v-if="router.currentRoute.value.path === '/finish' && shipment_cost"
       >
         <p style="margin-right: 10px">{{ purchasing.getPurchasingData.shipment_name }} shipment</p>
         <p>{{ shipment_cost.toLocaleString('id-ID') }}</p>
@@ -158,9 +166,28 @@ export default {
         >
           {{ purchasing.getPurchasingData.total_cost_with_shipment.toLocaleString('id-ID') }}
         </p>
+        <p
+          style="color: #ff8a00; font-weight: bold; font-size: 20px"
+          v-if="router.currentRoute.value.path === '/finish'"
+        >
+          {{ purchasing.getPurchasingData.total_cost_with_shipment.toLocaleString('id-ID') }}
+        </p>
       </div>
       <div class="btn-primary">
-        <button style="width: 100%" @click="save">Continue to payment</button>
+        <button
+          style="width: 100%"
+          @click="save"
+          v-if="router.currentRoute.value.path === '/delivery'"
+        >
+          Continue to payment
+        </button>
+        <button
+          style="width: 100%"
+          @click="save"
+          v-if="router.currentRoute.value.path === '/payment'"
+        >
+          Payment with {{ purchasing.getPurchasingData.payment_method }}
+        </button>
       </div>
     </div>
   </div>

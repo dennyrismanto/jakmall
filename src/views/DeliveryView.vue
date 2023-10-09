@@ -12,6 +12,7 @@ export default {
     SummaryForm
   },
   setup() {
+    const purchasing = usePurchasingStore()
     const router = useRouter()
 
     const input = ref({
@@ -51,7 +52,6 @@ export default {
 
     onBeforeMount(() => {
       if (router.currentRoute.value.path === '/delivery') {
-        const purchasing = usePurchasingStore()
         purchasing.updatePurchasingData(input.value)
       }
     })

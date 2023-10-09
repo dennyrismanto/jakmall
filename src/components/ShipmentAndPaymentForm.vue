@@ -78,6 +78,13 @@ export default {
       },
       set(val) {
         purchasing.updatePayment(val)
+        if (val === 'wallet') {
+          purchasing.updatePaymentMethod('e-Wallet')
+        } else if (val === 'bank-account') {
+          purchasing.updatePaymentMethod('Bank Transfer')
+        } else if (val === 'virtual-account') {
+          purchasing.updatePaymentMethod('Virtual Account')
+        }
       }
     })
 
@@ -141,11 +148,11 @@ export default {
       <div class="payment-options">
         <label :style="{ backgroundColor: payment === 'wallet' ? '#e6f7ff' : '' }">
           <input type="radio" name="payment" value="wallet" v-model="payment" />
-          Wallet
+          e-Wallet
         </label>
         <label :style="{ backgroundColor: payment === 'bank-account' ? '#e6f7ff' : '' }">
           <input type="radio" name="payment" value="bank-account" v-model="payment" />
-          Rekening Bank
+          Bank Transfer
         </label>
         <label
           :style="{
